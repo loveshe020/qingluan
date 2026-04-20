@@ -1,0 +1,12 @@
+.next
+node_modules
+.npm-cache
+.pydeps
+.env
+.env.local
+.env.*.local
+*.tsbuildinfo
+.tmp-*.log
+*.tar.gz
+.askpass.cmd
+.git_ssh_wrapper.cmd
