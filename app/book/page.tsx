@@ -8,11 +8,11 @@ import { getPublicSiteConfig } from "@/lib/public-config";
 
 export const metadata: Metadata = buildMetadata(
   "Book",
-  "Choose a service and enter the future booking flow for Qingluan Academy."
+  "Choose a service and proceed through Qingluan Academy's private booking flow."
 );
 
 /**
- * 渲染预约页面，提供服务对比与未来预约系统接入占位。
+ * 渲染预约页面，提供服务对比与后续预约系统接入入口。
  * @returns 预约页组件。
  */
 export default function BookPage() {
@@ -23,11 +23,11 @@ export default function BookPage() {
     <>
       <PageHero
         eyebrow="Book"
-        title={hasBooking ? "Choose a service and book directly." : "A booking page designed to be integration-ready."}
+        title={hasBooking ? "Choose a service and book directly." : "Choose your service and request scheduling."}
         description={
           hasBooking
             ? "Select your service, then continue to the scheduling calendar to choose your preferred time."
-            : "Choose the consultation format that matches your current needs. A scheduling provider such as Calendly can be connected here later without redesigning the flow."
+            : "Choose the consultation format that matches your current needs. You can request scheduling now, and an external calendar can be connected at any time."
         }
       />
       <section className="section-space pt-0">
@@ -94,14 +94,13 @@ export default function BookPage() {
             </>
           ) : (
             <>
-              <p className="text-sm uppercase tracking-[0.24em] text-teal/70">Integration placeholder</p>
+              <p className="text-sm uppercase tracking-[0.24em] text-teal/70">Private scheduling flow</p>
               <h2 className="mt-4 text-3xl font-semibold text-ink">
-                Calendly or external booking flow can live here.
+                Start with a direct inquiry and receive scheduling guidance.
               </h2>
               <p className="mt-4 max-w-3xl text-base leading-8 text-ink/78">
-                The section is intentionally designed as a polished placeholder rather than a broken
-                state. Once a booking provider is chosen, this page can embed availability, intake
-                steps, and confirmation details.
+                This page supports immediate service requests and can later embed live availability,
+                intake steps, and confirmation details once a calendar provider is enabled.
               </p>
             </>
           )}

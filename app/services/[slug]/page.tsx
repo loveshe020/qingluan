@@ -143,7 +143,7 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
 
       <CTASection
         title="A private consultation designed around your real situation."
-        description="If this service matches your current question, the next step is a booking placeholder flow that can later connect to Calendly or another scheduling provider."
+        description="If this service matches your current question, the next step is to request a suitable session format and receive booking guidance based on your needs and time zone."
         primaryHref="/book"
         primaryLabel={service.ctaLabel}
         secondaryHref="/contact"

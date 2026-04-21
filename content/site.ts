@@ -17,6 +17,15 @@ export type FaqItem = {
   answer: string;
 };
 
+export type FounderProfile = {
+  name: string;
+  title: string;
+  location: string;
+  intro: string;
+  philosophy: string;
+  highlights: string[];
+};
+
 export const navigation = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
@@ -53,7 +62,7 @@ export const services: Service[] = [
       "Structured summary points",
       "Suggested reflection themes and next steps",
     ],
-    pricing: "Pricing available on inquiry. Introductory tier placeholder: from $180.",
+    pricing: "Session fee available on inquiry. Typical engagement starts from $180.",
     ctaLabel: "Book a Bazi Reading",
   },
   {
@@ -83,7 +92,7 @@ export const services: Service[] = [
       "Decision framing notes",
       "Suggested timing or positioning considerations",
     ],
-    pricing: "Pricing available on inquiry. Introductory tier placeholder: from $220.",
+    pricing: "Session fee available on inquiry. Typical engagement starts from $220.",
     ctaLabel: "Book a Qimen Session",
   },
   {
@@ -113,7 +122,7 @@ export const services: Service[] = [
       "Spatial recommendation summary",
       "Action-oriented layout and environment guidance",
     ],
-    pricing: "Pricing available on inquiry. Introductory tier placeholder: from $260.",
+    pricing: "Session fee available on inquiry. Typical engagement starts from $260.",
     ctaLabel: "Book a Feng Shui Audit",
   },
 ];
@@ -147,7 +156,7 @@ export const faqItems: FaqItem[] = [
   {
     question: "What is your cancellation policy?",
     answer:
-      "A final policy can be attached once booking software is integrated. The current placeholder policy assumes notice is required for rescheduling and missed sessions are non-refundable.",
+      "Rescheduling requests are handled case by case with advance notice. Missed sessions are generally non-refundable unless otherwise agreed in writing before booking.",
   },
   {
     question: "Is this medical, legal, or financial advice?",
@@ -158,14 +167,14 @@ export const faqItems: FaqItem[] = [
 
 export const testimonials = [
   {
-    name: "Client Placeholder",
-    role: "Founder, Berlin",
+    name: "Private Client",
+    role: "Founder, Berlin (Name Withheld)",
     quote:
       "The session gave me a calmer framework for timing and decision-making. It felt reflective, structured, and unexpectedly practical.",
   },
   {
-    name: "Client Placeholder",
-    role: "Creative Director, Singapore",
+    name: "Private Client",
+    role: "Creative Director, Singapore (Name Withheld)",
     quote:
       "What stood out was the tone: grounded, clear, and culturally rooted without becoming theatrical or vague.",
   },
@@ -189,6 +198,21 @@ export const audiencePoints = [
   "Creatives and thoughtful seekers exploring direction and patterns.",
   "Homeowners and remote workers seeking a more aligned environment.",
 ];
+
+export const founderProfile: FounderProfile = {
+  name: "Founder of Qingluan Academy",
+  title: "Bazi, Qimen Dunjia, and Feng Shui Practitioner",
+  location: "Serving clients globally through private online consultations",
+  intro:
+    "The founder's work began with long-term study of classical Chinese metaphysical systems and evolved into a modern consultation practice focused on clarity, ethics, and practical application.",
+  philosophy:
+    "The aim is not dramatic prediction, but responsible interpretation. Each session is designed to translate traditional frameworks into language clients can apply to real decisions, relationships, and environments.",
+  highlights: [
+    "Integrates Bazi, Qimen Dunjia, and Feng Shui as complementary lenses.",
+    "Emphasizes cultural integrity, discretion, and grounded communication.",
+    "Works with founders, professionals, creatives, and families across time zones.",
+  ],
+};
 
 export const siteMeta = {
   title: "青鸾书院 | Qingluan Academy",

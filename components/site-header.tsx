@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -16,8 +17,14 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 border-b border-line bg-[rgba(247,243,235,0.86)] backdrop-blur-xl">
       <div className="container-shell flex items-center justify-between gap-6 py-4">
         <Link href="/" className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-full border border-gold/35 bg-white/70 text-xs uppercase tracking-[0.25em] text-gold">
-            青鸾
+          <div className="relative h-11 w-11 overflow-hidden rounded-full border border-gold/35 bg-white/70">
+            <Image
+              alt="Qingluan Academy logo"
+              className="object-cover"
+              fill
+              sizes="44px"
+              src="/images/brand-logo.png"
+            />
           </div>
           <div>
             <p className="text-sm uppercase tracking-[0.25em] text-teal/70">Qingluan Academy</p>

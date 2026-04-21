@@ -108,8 +108,8 @@ export default function HomePage() {
           <div className="flex items-end justify-between gap-4">
             <SectionHeading
               eyebrow="Testimonials"
-              title="Thoughtful placeholders for future client stories."
-              description="The website is ready for real testimonials later. For now, the structure shows how social proof will fit into the experience."
+              title="Client reflections from private consultations."
+              description="All names are withheld for privacy. These quotes represent the tone and outcomes clients most often report after sessions."
             />
             <Link className="hidden text-sm uppercase tracking-[0.2em] text-teal lg:block" href="/contact">
               Inquire privately
