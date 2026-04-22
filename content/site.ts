@@ -181,10 +181,10 @@ export const testimonials = [
 ];
 
 export const processSteps = [
-  "Choose the service that matches your current question or situation.",
-  "Complete the intake form with the details needed for preparation.",
-  "Meet online for a private consultation tailored to your context.",
-  "Receive structured guidance and next steps for reflection or action.",
+  "Submit the inquiry form with your required details and preferred service.",
+  "Receive our reply email with service scope, fee details, and payment instructions.",
+  "Complete payment to confirm the booking and consultation schedule.",
+  "Receive preparation guidance and complete the agreed consultation service.",
 ];
 
 export const trustPoints = [

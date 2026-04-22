@@ -53,12 +53,21 @@ export default function ContactPage() {
               )}
             </div>
             <div className="panel-surface rounded-[2rem] p-8">
-              <p className="text-sm uppercase tracking-[0.24em] text-teal/70">Trust note</p>
-              <p className="mt-4 text-base leading-8 text-ink/80">
-                Inquiries are framed with privacy, respect, and cultural sensitivity in mind. The
-                language of the site is intentionally measured so clients can approach the work with
-                confidence rather than pressure.
-              </p>
+              <p className="text-sm uppercase tracking-[0.24em] text-teal/70">Service process</p>
+              <div className="mt-4 space-y-4">
+                {[
+                  "1) Fill in the inquiry form with required details.",
+                  "2) Receive our reply email with service scope, fee details, and payment instructions.",
+                  "3) Complete payment to confirm your booking.",
+                  "4) Receive your schedule and preparation guidance.",
+                  "5) We complete the agreed service and send follow-up notes when applicable.",
+                ].map((step) => (
+                  <div className="flex gap-3" key={step}>
+                    <div className="mt-2 h-2.5 w-2.5 rounded-full bg-gold" />
+                    <p className="text-base leading-7 text-ink/80">{step}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

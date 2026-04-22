@@ -33,7 +33,8 @@ export function InquiryForm() {
     message: string;
   }>({
     tone: "idle",
-    message: "Your inquiry will be sent directly to the Qingluan Academy inbox.",
+    message:
+      "After submission, we will email you with service scope, fee details, and payment instructions.",
   });
   const [isPending, startTransition] = useTransition();
 

@@ -31,7 +31,8 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       ok: true,
-      message: "Your inquiry has been sent. We will reply by email.",
+      message:
+        "Inquiry received. We will email you with service scope, fee details, and payment instructions.",
     });
   } catch (error) {
     if (error instanceof Error && error.message === "Contact email service is not fully configured.") {
