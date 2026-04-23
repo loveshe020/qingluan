@@ -24,6 +24,7 @@ export const contactSchema = z.object({
     .min(20, "Please share a little more detail.")
     .max(4000, "Message is too long."),
   website: z.string().max(0).optional().default(""),
+  locale: z.enum(["zh", "en"]).optional().default("zh"),
 });
 
 export type ContactInput = z.infer<typeof contactSchema>;

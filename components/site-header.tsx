@@ -2,16 +2,44 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
-import { navigation } from "@/content/site";
+import type { Locale } from "@/content/site";
+import { LOCALE_COOKIE_NAME } from "@/lib/i18n-shared";
+
+type SiteHeaderProps = {
+  locale: Locale;
+  navigation: Array<{ href: string; label: string }>;
+  brandTitle: string;
+  brandSubtitle: string;
+  bookLabel: string;
+  langZhLabel: string;
+  langEnLabel: string;
+};
 
 /**
  * 渲染网站头部导航，并根据当前路由高亮激活项。
  * @returns 网站头部组件。
  */
-export function SiteHeader() {
+export function SiteHeader({
+  locale,
+  navigation,
+  brandTitle,
+  brandSubtitle,
+  bookLabel,
+  langZhLabel,
+  langEnLabel,
+}: SiteHeaderProps) {
   const pathname = usePathname();
+  const router = useRouter();
+
+  function switchLocale(nextLocale: Locale) {
+    if (nextLocale === locale) {
+      return;
+    }
+    document.cookie = `${LOCALE_COOKIE_NAME}=${nextLocale}; path=/; max-age=31536000; samesite=lax`;
+    router.refresh();
+  }
 
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-[rgba(247,243,235,0.86)] backdrop-blur-xl">
@@ -27,8 +55,8 @@ export function SiteHeader() {
             />
           </div>
           <div>
-            <p className="text-sm uppercase tracking-[0.25em] text-teal/70">Qingluan Academy</p>
-            <p className="text-xs text-ink/62">Chinese Metaphysics Consultations</p>
+            <p className="text-sm uppercase tracking-[0.25em] text-teal/70">{brandTitle}</p>
+            <p className="text-xs text-ink/62">{brandSubtitle}</p>
           </div>
         </Link>
         <nav className="hidden items-center gap-6 lg:flex">
@@ -48,13 +76,51 @@ export function SiteHeader() {
               </Link>
             );
           })}
+          <button
+            className={`rounded-full border px-3 py-1 text-xs font-semibold ${
+              locale === "zh" ? "border-teal text-teal" : "border-line text-ink/70"
+            }`}
+            onClick={() => switchLocale("zh")}
+            type="button"
+          >
+            {langZhLabel}
+          </button>
+          <button
+            className={`rounded-full border px-3 py-1 text-xs font-semibold ${
+              locale === "en" ? "border-teal text-teal" : "border-line text-ink/70"
+            }`}
+            onClick={() => switchLocale("en")}
+            type="button"
+          >
+            {langEnLabel}
+          </button>
           <Link className="cta-button rounded-full px-5 py-3 text-sm" href="/book">
-            Book
+            {bookLabel}
           </Link>
         </nav>
-        <Link className="cta-button rounded-full px-5 py-3 text-sm lg:hidden" href="/book">
-          Book
-        </Link>
+        <div className="flex items-center gap-2 lg:hidden">
+          <button
+            className={`rounded-full border px-3 py-1 text-xs font-semibold ${
+              locale === "zh" ? "border-teal text-teal" : "border-line text-ink/70"
+            }`}
+            onClick={() => switchLocale("zh")}
+            type="button"
+          >
+            {langZhLabel}
+          </button>
+          <button
+            className={`rounded-full border px-3 py-1 text-xs font-semibold ${
+              locale === "en" ? "border-teal text-teal" : "border-line text-ink/70"
+            }`}
+            onClick={() => switchLocale("en")}
+            type="button"
+          >
+            {langEnLabel}
+          </button>
+          <Link className="cta-button rounded-full px-5 py-3 text-sm" href="/book">
+            {bookLabel}
+          </Link>
+        </div>
       </div>
     </header>
   );

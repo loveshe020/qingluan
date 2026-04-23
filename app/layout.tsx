@@ -5,18 +5,20 @@ import "./globals.css";
 
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { siteMeta } from "@/content/site";
+import { getSiteContent } from "@/content/site";
+import { getRequestLocale } from "@/lib/i18n";
 
 export const metadata: Metadata = {
-  title: siteMeta.title,
-  description: siteMeta.description,
+  title: "青鸾书院 | Qingluan Academy",
+  description:
+    "青鸾书院 Qingluan Academy：八字、奇门遁甲与风水线上咨询。Bazi, Qimen Dunjia and Feng Shui online consultations.",
   keywords: [
     "Qingluan Academy",
+    "青鸾书院",
     "Bazi consultation",
     "Qimen Dunjia consultation",
     "Feng Shui consultation",
     "Chinese metaphysics online",
-    "life direction and timing consultation",
   ],
 };
 
@@ -24,19 +26,32 @@ type RootLayoutProps = {
   children: ReactNode;
 };
 
-/**
- * 定义站点根布局，统一注入字体、导航、页脚和全局元数据。
- * @param props 页面子节点。
- * @returns 根布局组件。
- */
-export default function RootLayout({ children }: RootLayoutProps) {
+export default async function RootLayout({ children }: RootLayoutProps) {
+  const locale = await getRequestLocale();
+  const site = getSiteContent(locale);
+
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body className="font-sans text-ink antialiased">
-        <SiteHeader />
+        <SiteHeader
+          bookLabel={site.header.bookButton}
+          brandSubtitle={site.header.brandSubtitle}
+          brandTitle={site.header.brandTitle}
+          langEnLabel={site.header.langEn}
+          langZhLabel={site.header.langZh}
+          locale={locale}
+          navigation={site.navigation}
+        />
         <main>{children}</main>
-        <SiteFooter />
+        <SiteFooter
+          bookLabel={site.header.bookButton}
+          brandTitle={site.footer.brandTitle}
+          description={site.footer.description}
+          disclaimer={site.footer.disclaimer}
+          navigation={site.navigation}
+        />
       </body>
     </html>
   );
 }
+

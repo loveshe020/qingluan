@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 
 import { CTASection } from "@/components/cta-section";
 import { HeroSection } from "@/components/hero-section";
@@ -7,36 +7,66 @@ import { SectionHeading } from "@/components/section-heading";
 import { ServiceCard } from "@/components/service-card";
 import { TestimonialCard } from "@/components/testimonial-card";
 import { TrustSection } from "@/components/trust-section";
-import {
-  audiencePoints,
-  processSteps,
-  services,
-  testimonials,
-  trustPoints,
-} from "@/content/site";
+import { getSiteContent } from "@/content/site";
+import { getRequestLocale } from "@/lib/i18n";
 
-/**
- * 渲染首页，集中展示品牌定位、核心服务、流程与转化入口。
- * @returns 首页组件。
- */
-export default function HomePage() {
+export default async function HomePage() {
+  const locale = await getRequestLocale();
+  const site = getSiteContent(locale);
+
   return (
     <>
-      <HeroSection />
+      <HeroSection copy={site.hero} />
+
+      <section className="section-space pt-0">
+        <div className="container-shell">
+          <div className="rounded-[2rem] border border-line bg-[#f8f2e8] p-7 shadow-panel md:p-9">
+            <p className="text-sm uppercase tracking-[0.24em] text-[#8f2d2d]">{site.freeBaziCampaign.eyebrow}</p>
+            <h2 className="mt-4 text-3xl font-semibold leading-[1.25] text-ink md:text-4xl">
+              {site.freeBaziCampaign.title}
+            </h2>
+            <p className="mt-4 max-w-4xl text-base leading-8 text-ink/82">{site.freeBaziCampaign.description}</p>
+            <div className="mt-6 grid gap-4 md:grid-cols-3">
+              <div className="rounded-[1.2rem] border border-[#8f2d2d]/20 bg-white/70 p-4">
+                <p className="text-xs uppercase tracking-[0.2em] text-[#8f2d2d]/85">
+                  {site.home.campaignLabels.quota}
+                </p>
+                <p className="mt-2 text-sm leading-7 text-ink/78">{site.freeBaziCampaign.quota}</p>
+              </div>
+              <div className="rounded-[1.2rem] border border-[#2f6a4d]/20 bg-white/70 p-4">
+                <p className="text-xs uppercase tracking-[0.2em] text-[#2f6a4d]/90">
+                  {site.home.campaignLabels.exchange}
+                </p>
+                <p className="mt-2 text-sm leading-7 text-ink/78">{site.freeBaziCampaign.exchange}</p>
+              </div>
+              <div className="rounded-[1.2rem] border border-line bg-white/70 p-4">
+                <p className="text-xs uppercase tracking-[0.2em] text-teal/80">
+                  {site.home.campaignLabels.availability}
+                </p>
+                <p className="mt-2 text-sm leading-7 text-ink/78">{site.freeBaziCampaign.availability}</p>
+              </div>
+            </div>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <Link className="cta-button rounded-full" href={site.freeBaziCampaign.primaryHref}>
+                {site.freeBaziCampaign.primaryLabel}
+              </Link>
+              <Link className="secondary-button rounded-full" href={site.freeBaziCampaign.secondaryHref}>
+                {site.freeBaziCampaign.secondaryLabel}
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section className="section-space">
         <div className="container-shell grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
           <SectionHeading
-            eyebrow="Our perspective"
-            title="Ancient Chinese wisdom translated into practical guidance."
-            description="Qingluan Academy offers a calm and structured space to reflect on timing, direction, and environment. The work is culturally rooted, private, and designed for modern life rather than spectacle."
+            eyebrow={site.home.perspective.eyebrow}
+            title={site.home.perspective.title}
+            description={site.home.perspective.description}
           />
           <div className="panel-surface rounded-[2rem] p-8">
-            <p className="text-lg leading-8 text-ink/80">
-              The intention is not prediction theater. It is a thoughtful consultation practice that
-              helps clients make clearer decisions, understand patterns with more nuance, and shape
-              the environments in which they live and work.
-            </p>
+            <p className="text-lg leading-8 text-ink/80">{site.home.perspective.body}</p>
           </div>
         </div>
       </section>
@@ -45,13 +75,18 @@ export default function HomePage() {
         <div className="container-shell">
           <SectionHeading
             align="center"
-            eyebrow="Services"
-            title="Three pathways into clarity, timing, and spatial harmony."
-            description="Each consultation format is designed around a different kind of question, while sharing the same tone: measured, personal, and grounded."
+            eyebrow={site.home.service.eyebrow}
+            title={site.home.service.title}
+            description={site.home.service.description}
           />
           <div className="mt-10 grid gap-6 lg:grid-cols-3">
-            {services.map((service) => (
-              <ServiceCard key={service.slug} service={service} />
+            {site.services.map((service) => (
+              <ServiceCard
+                badgeLabel={site.home.service.badge}
+                exploreLabel={site.home.service.explore}
+                key={service.slug}
+                service={service}
+              />
             ))}
           </div>
         </div>
@@ -60,12 +95,12 @@ export default function HomePage() {
       <section className="section-space">
         <div className="container-shell">
           <SectionHeading
-            eyebrow="How it works"
-            title="A simple process designed to stay personal."
-            description="The structure is intentionally clear, so the session itself can remain spacious and focused."
+            eyebrow={site.home.process.eyebrow}
+            title={site.home.process.title}
+            description={site.home.process.description}
           />
           <div className="mt-10">
-            <ProcessSteps steps={processSteps} />
+            <ProcessSteps steps={site.processSteps} />
           </div>
         </div>
       </section>
@@ -73,12 +108,12 @@ export default function HomePage() {
       <section className="section-space bg-white/30">
         <div className="container-shell">
           <SectionHeading
-            eyebrow="Why work with us"
-            title="Trust built through tone, depth, and cultural integrity."
-            description="The brand is positioned for thoughtful clients who value quality, privacy, and practical guidance over dramatic claims."
+            eyebrow={site.home.trust.eyebrow}
+            title={site.home.trust.title}
+            description={site.home.trust.description}
           />
           <div className="mt-10">
-            <TrustSection points={trustPoints} />
+            <TrustSection points={site.trustPoints} />
           </div>
         </div>
       </section>
@@ -86,13 +121,13 @@ export default function HomePage() {
       <section className="section-space">
         <div className="container-shell grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
           <SectionHeading
-            eyebrow="Who this is for"
-            title="For people seeking reflection before reaction."
-            description="The site is designed for internationally minded clients who are open to metaphysical traditions but selective about quality, language, and trust."
+            eyebrow={site.home.audience.eyebrow}
+            title={site.home.audience.title}
+            description={site.home.audience.description}
           />
           <div className="panel-surface rounded-[2rem] p-8">
             <div className="space-y-5">
-              {audiencePoints.map((point) => (
+              {site.audiencePoints.map((point) => (
                 <div className="flex gap-4" key={point}>
                   <div className="mt-2 h-2.5 w-2.5 rounded-full bg-gold" />
                   <p className="text-base leading-7 text-ink/78">{point}</p>
@@ -107,16 +142,16 @@ export default function HomePage() {
         <div className="container-shell">
           <div className="flex items-end justify-between gap-4">
             <SectionHeading
-              eyebrow="Testimonials"
-              title="Client reflections from private consultations."
-              description="All names are withheld for privacy. These quotes represent the tone and outcomes clients most often report after sessions."
+              eyebrow={site.home.testimonials.eyebrow}
+              title={site.home.testimonials.title}
+              description={site.home.testimonials.description}
             />
             <Link className="hidden text-sm uppercase tracking-[0.2em] text-teal lg:block" href="/contact">
-              Inquire privately
+              {site.home.testimonials.inquire}
             </Link>
           </div>
           <div className="mt-10 grid gap-6 lg:grid-cols-2">
-            {testimonials.map((item) => (
+            {site.testimonials.map((item) => (
               <TestimonialCard
                 key={`${item.name}-${item.role}`}
                 name={item.name}
@@ -129,13 +164,14 @@ export default function HomePage() {
       </section>
 
       <CTASection
-        title="Choose a consultation shaped around your question."
-        description="Whether you are looking for perspective on life direction, support around a decision, or a more harmonious environment, the next step is a clear and private booking flow."
+        title={site.home.cta.title}
+        description={site.home.cta.description}
         primaryHref="/book"
-        primaryLabel="Go to booking"
+        primaryLabel={site.home.cta.primaryLabel}
         secondaryHref="/contact"
-        secondaryLabel="Contact first"
+        secondaryLabel={site.home.cta.secondaryLabel}
       />
     </>
   );
 }
+

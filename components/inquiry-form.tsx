@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 
+import type { InquiryFormCopy, Locale } from "@/content/site";
 import { serviceOptions } from "@/lib/contact-schema";
 
 type FormState = {
@@ -11,39 +12,33 @@ type FormState = {
   timezone: string;
   message: string;
   website: string;
+  locale: Locale;
 };
 
-const initialState: FormState = {
-  name: "",
-  email: "",
-  service: "Bazi Clarity Reading",
-  timezone: "",
-  message: "",
-  website: "",
+type InquiryFormProps = {
+  locale: Locale;
+  copy: InquiryFormCopy;
 };
 
-/**
- * 渲染真实可提交的联系表单，并处理提交反馈状态。
- * @returns 咨询表单组件。
- */
-export function InquiryForm() {
-  const [form, setForm] = useState<FormState>(initialState);
+export function InquiryForm({ locale, copy }: InquiryFormProps) {
+  const [form, setForm] = useState<FormState>({
+    name: "",
+    email: "",
+    service: "Bazi Clarity Reading",
+    timezone: "",
+    message: "",
+    website: "",
+    locale,
+  });
   const [status, setStatus] = useState<{
     tone: "idle" | "success" | "error";
     message: string;
   }>({
     tone: "idle",
-    message:
-      "After submission, we will email you with service scope, fee details, and payment instructions.",
+    message: copy.idleMessage,
   });
   const [isPending, startTransition] = useTransition();
 
-  /**
-   * 更新指定字段的表单值。
-   * @param field 字段名。
-   * @param value 字段值。
-   * @returns void。
-   */
   function updateField<K extends keyof FormState>(field: K, value: FormState[K]) {
     setForm((current) => ({
       ...current,
@@ -51,18 +46,13 @@ export function InquiryForm() {
     }));
   }
 
-  /**
-   * 处理表单提交并调用后端联系接口。
-   * @param event 表单提交事件。
-   * @returns Promise<void>。
-   */
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     startTransition(async () => {
       setStatus({
         tone: "idle",
-        message: "Sending your inquiry...",
+        message: copy.sendingMessage,
       });
 
       try {
@@ -84,7 +74,15 @@ export function InquiryForm() {
           return;
         }
 
-        setForm(initialState);
+        setForm({
+          name: "",
+          email: "",
+          service: "Bazi Clarity Reading",
+          timezone: "",
+          message: "",
+          website: "",
+          locale,
+        });
         setStatus({
           tone: "success",
           message: result.message,
@@ -92,7 +90,7 @@ export function InquiryForm() {
       } catch {
         setStatus({
           tone: "error",
-          message: "Unable to submit right now. Please try again in a moment.",
+          message: copy.submitError,
         });
       }
     });
@@ -102,24 +100,24 @@ export function InquiryForm() {
     <form className="panel-surface rounded-[2rem] p-6 md:p-8" onSubmit={handleSubmit}>
       <div className="grid gap-5 md:grid-cols-2">
         <label className="block">
-          <span className="text-sm font-medium text-ink">Name</span>
+          <span className="text-sm font-medium text-ink">{copy.labels.name}</span>
           <input
             className="mt-2 w-full rounded-2xl border border-line bg-white/70 px-4 py-3 outline-none ring-0"
             name="name"
             onChange={(event) => updateField("name", event.target.value)}
-            placeholder="Your name"
+            placeholder={copy.placeholders.name}
             required
             type="text"
             value={form.name}
           />
         </label>
         <label className="block">
-          <span className="text-sm font-medium text-ink">Email</span>
+          <span className="text-sm font-medium text-ink">{copy.labels.email}</span>
           <input
             className="mt-2 w-full rounded-2xl border border-line bg-white/70 px-4 py-3 outline-none ring-0"
             name="email"
             onChange={(event) => updateField("email", event.target.value)}
-            placeholder="name@example.com"
+            placeholder={copy.placeholders.email}
             required
             type="email"
             value={form.email}
@@ -128,7 +126,7 @@ export function InquiryForm() {
       </div>
       <div className="mt-5 grid gap-5 md:grid-cols-2">
         <label className="block">
-          <span className="text-sm font-medium text-ink">Service of interest</span>
+          <span className="text-sm font-medium text-ink">{copy.labels.service}</span>
           <select
             className="mt-2 w-full rounded-2xl border border-line bg-white/70 px-4 py-3"
             name="service"
@@ -136,17 +134,19 @@ export function InquiryForm() {
             value={form.service}
           >
             {serviceOptions.map((option) => (
-              <option key={option}>{option}</option>
+              <option key={option} value={option}>
+                {copy.serviceOptionLabels[option] ?? option}
+              </option>
             ))}
           </select>
         </label>
         <label className="block">
-          <span className="text-sm font-medium text-ink">Timezone</span>
+          <span className="text-sm font-medium text-ink">{copy.labels.timezone}</span>
           <input
             className="mt-2 w-full rounded-2xl border border-line bg-white/70 px-4 py-3 outline-none ring-0"
             name="timezone"
             onChange={(event) => updateField("timezone", event.target.value)}
-            placeholder="e.g. GMT+8"
+            placeholder={copy.placeholders.timezone}
             required
             type="text"
             value={form.timezone}
@@ -154,18 +154,18 @@ export function InquiryForm() {
         </label>
       </div>
       <label className="mt-5 block">
-        <span className="text-sm font-medium text-ink">What would you like support with?</span>
+        <span className="text-sm font-medium text-ink">{copy.labels.message}</span>
         <textarea
           className="mt-2 min-h-40 w-full rounded-[1.5rem] border border-line bg-white/70 px-4 py-3 outline-none ring-0"
           name="message"
           onChange={(event) => updateField("message", event.target.value)}
-          placeholder="Share your context, question, or what you hope to explore."
+          placeholder={copy.placeholders.message}
           required
           value={form.message}
         />
       </label>
       <label className="hidden" htmlFor="website">
-        Website
+        {copy.labels.honeypot}
       </label>
       <input
         autoComplete="off"
@@ -194,9 +194,10 @@ export function InquiryForm() {
           disabled={isPending}
           type="submit"
         >
-          {isPending ? "Sending..." : "Send inquiry"}
+          {isPending ? copy.buttons.sending : copy.buttons.submit}
         </button>
       </div>
     </form>
   );
 }
+
